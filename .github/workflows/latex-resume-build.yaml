@@ -5,24 +5,42 @@ on:
       - '**.tex'
 
 jobs:
-  container:
+  latex-build:
     runs-on: ubuntu-latest
     container: kjarosh/latex:2024.4
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Git
-        run: apt-get update && apt-get install -y git
-
       - name: Build using latexmk
         run: latexmk -pdf -output-directory=out latex/default.tex
 
       - name: List
-        run: ls -la
+        run: ls out
 
       - name: Upload document
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-pdf
+          path: out/default.pdf
+          
+  upload-resume:
+    needs: latex-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: compiled-pdf
+          
+      - name: List
+        run: ls
+        
+      - name: Upload pdf to github
         uses: EndBug/add-and-commit@v9
         with:
-          add: "out/default.pdf"
-          message: "Uploaded latest resume pdf"
+          add: "default.pdf"
+          message: "Upload latest resume pdf"
+    
+  
+         
