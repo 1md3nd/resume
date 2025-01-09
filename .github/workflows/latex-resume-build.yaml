@@ -3,7 +3,7 @@ on: [ push ]
 jobs:
   container:
     runs-on: ubuntu-latest
-    container: kjarosh/latex:2024.4-minimal
+    container: kjarosh/latex:2024.4
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -13,7 +13,7 @@ jobs:
 
       - name: List
         run: ls -la
-        
+
       - name: Upload document
         uses: actions/upload-artifact@v4
         with:
