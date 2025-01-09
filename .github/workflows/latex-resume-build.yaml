@@ -1,5 +1,9 @@
 name: Compile LaTeX
-on: [ push ]
+on:
+  push:
+    paths:
+      - '**.tex'
+      
 jobs:
   container:
     runs-on: ubuntu-latest
@@ -15,7 +19,7 @@ jobs:
         run: ls -la
 
       - name: Upload document
-        uses: actions/upload-artifact@v4
-        with:
-          name: main-document
-          path: out/default.pdf
+        run: |
+          git add out/default.pdf
+          git commit -m "Uploaded latest resume version"
+          git push
