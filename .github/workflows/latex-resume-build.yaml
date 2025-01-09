@@ -3,7 +3,7 @@ on:
   push:
     paths:
       - '**.tex'
-      
+
 jobs:
   container:
     runs-on: ubuntu-latest
@@ -19,7 +19,7 @@ jobs:
         run: ls -la
 
       - name: Upload document
-        run: |
-          git add out/default.pdf
-          git commit -m "Uploaded latest resume version"
-          git push
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: out/default.pdf
+          message: "Uploaded latest resume pdf"
